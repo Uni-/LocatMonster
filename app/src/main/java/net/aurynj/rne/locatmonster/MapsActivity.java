@@ -7,7 +7,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -40,8 +40,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng latlngAnamStn = new LatLng(37.586296, 127.029137);
+        mMap.addMarker(new MarkerOptions().position(latlngAnamStn).title("안암역"));
+
+        final int gridPtSpan = 2;
+        final int gridSidePts = 2 * gridPtSpan + 1, gridAllPts = gridSidePts * gridSidePts;
+        LatLng latlngGridCenter = new LatLng(37.586, 127.028);
+        double gridLen = 0.002;
+        LatLng[] latlngGridPoints = new LatLng[gridAllPts];
+        for (int i = 0, x = -gridPtSpan; x <= gridPtSpan; i++, x++) {
+            for (int j = 0, y = -gridPtSpan; y <= gridPtSpan; j++, y++) {
+                final int idx = i * gridPtSpan + j;
+                latlngGridPoints[idx] = new LatLng(latlngGridCenter.latitude + x * gridLen, latlngGridCenter.longitude + y * gridLen);
+                mMap.addMarker(new MarkerOptions().position(latlngGridPoints[idx]).title("Grid " + x + ", " + y));
+            }
+        }
+
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(latlngAnamStn).zoom(16).build();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 }
