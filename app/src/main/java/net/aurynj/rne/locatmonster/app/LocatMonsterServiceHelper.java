@@ -1,4 +1,4 @@
-package net.aurynj.rne.locatmonster;
+package net.aurynj.rne.locatmonster.app;
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import java.util.List;
-import java.util.Objects;
 
 public class LocatMonsterServiceHelper extends BroadcastReceiver {
     @Override

@@ -1,15 +1,13 @@
 // http://developer.android.com/intl/ko/guide/components/services.html
 // http://developer.android.com/intl/ko/training/location/index.html
-package net.aurynj.rne.locatmonster;
+package net.aurynj.rne.locatmonster.app;
 
-import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.location.Location;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
+import net.aurynj.rne.locatmonster.*;
 
 public class MainActivity extends AppCompatActivity {
     TextView mHelloWorldTextView;

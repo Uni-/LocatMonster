@@ -1,4 +1,4 @@
-package net.aurynj.rne.locatmonster;
+package net.aurynj.rne.locatmonster.app;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import net.aurynj.rne.locatmonster.*;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

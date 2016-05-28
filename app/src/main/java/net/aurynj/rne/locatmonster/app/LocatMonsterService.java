@@ -1,4 +1,4 @@
-package net.aurynj.rne.locatmonster;
+package net.aurynj.rne.locatmonster.app;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,7 +15,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.Date;
+import net.aurynj.rne.locatmonster.*;
 
 public class LocatMonsterService extends Service
         implements LocationContainer.OnLocationRefreshedListener {

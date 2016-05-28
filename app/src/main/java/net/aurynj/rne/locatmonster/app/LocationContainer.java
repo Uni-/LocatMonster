@@ -1,4 +1,4 @@
-package net.aurynj.rne.locatmonster;
+package net.aurynj.rne.locatmonster.app;
 
 import android.Manifest;
 import android.content.Context;
