@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".app.BattleControlActivity">
+
+    <LinearLayout
+        android:id="@+id/activity_battle_control_layout_far"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <net.aurynj.rne.locatmonster.widget.CharacterBriefStatusView
+            android:id="@+id/activity_battle_control_brief_status_far"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@android:drawable/ic_media_rew" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_battle_control_layout_near"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/activity_battle_control_layout_far"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@android:drawable/ic_media_ff" />
+
+        <net.aurynj.rne.locatmonster.widget.CharacterBriefStatusView
+            android:id="@+id/activity_battle_control_brief_status_near"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start arena"
+        android:id="@+id/activity_battle_control_start_arena"
+        android:layout_below="@+id/activity_battle_control_layout_near"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Arena Generated."
+        android:id="@+id/activity_battle_control_arena_log"
+        android:layout_below="@+id/activity_battle_control_start_arena" />
+</RelativeLayout>

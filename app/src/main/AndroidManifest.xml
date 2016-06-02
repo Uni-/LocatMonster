@@ -25,7 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".app.MapsActivity"
             android:label="@string/title_activity_maps" />
@@ -33,7 +32,8 @@
         <service
             android:name=".app.LocatMonsterService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:label="@string/title_service_locatmonster" />
 
         <receiver
             android:name=".app.LocatMonsterServiceHelper"
@@ -56,6 +56,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".app.BattleControlActivity"
+            android:label="@string/title_activity_battlecontrol" />
+
     </application>
 
 </manifest>

@@ -18,19 +18,25 @@
             android:id="@+id/activity_main_button_start_map"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="Map" />
+            android:text="지도" />
+
+        <Button
+            android:id="@+id/activity_main_button_start_battle_control"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="수동전투" />
 
         <Button
             android:id="@+id/activity_main_button_refresh_location"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="Refresh Location" />
+            android:text="[Test] Refresh Location" />
 
         <Button
             android:id="@+id/activity_main_button_clear_log"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="Clear Log" />
+            android:text="[Test] Clear Log" />
 
         <Button
             android:id="@+id/activity_main_button_bind_service"
@@ -60,12 +66,17 @@
             android:id="@+id/activity_main_button_new_noti"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="New Noti" />
+            android:text="[Test] Change Value" />
 
         <TextView
             android:id="@+id/activity_main_text_helloworld"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello World!" />
+
+        <net.aurynj.rne.locatmonster.widget.CharacterBriefStatusView
+            android:id="@+id/activity_main_view_character_brief_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>

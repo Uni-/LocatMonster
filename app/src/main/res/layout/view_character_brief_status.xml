@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="새끼 호랑이"
+                android:textAlignment="textStart" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="울트라캡숑"
+                android:textAlignment="textStart"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lv. 1"
+            android:textAlignment="textEnd" />
+    </RelativeLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow android:layout_margin="3dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HP"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1">
+
+                <ProgressBar
+                    android:id="@+id/view_character_brief_status_progress_hp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/CharacterBriefStatusView_barGray"
+                    android:padding="3dp"
+                    android:progressDrawable="@drawable/character_status_progress_bar_hp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/view_character_brief_status_text_hp"
+                android:layout_width="30pt"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:text="1/1"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </TableRow>
+
+        <TableRow android:layout_margin="3dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MP"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1">
+
+                <ProgressBar
+                    android:id="@+id/view_character_brief_status_progress_mp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/CharacterBriefStatusView_barGray"
+                    android:padding="3dp"
+                    android:progressDrawable="@drawable/character_status_progress_bar_mp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/view_character_brief_status_text_mp"
+                android:layout_width="30pt"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:text="10/10"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </TableRow>
+
+        <TableRow android:layout_margin="3dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SP"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1">
+
+                <ProgressBar
+                    android:id="@+id/view_character_brief_status_progress_sp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/CharacterBriefStatusView_barGray"
+                    android:padding="3dp"
+                    android:progressDrawable="@drawable/character_status_progress_bar_sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/view_character_brief_status_text_sp"
+                android:layout_width="30pt"
+                android:layout_height="wrap_content"
+                android:text="100/100"
+                android:textAlignment="textEnd"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
