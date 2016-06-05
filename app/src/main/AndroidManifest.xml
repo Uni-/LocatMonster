@@ -31,13 +31,13 @@
             android:label="@string/title_activity_maps" />
 
         <service
-            android:name=".app.LocatMonsterService"
+            android:name=".appframework.LocatMonsterService"
             android:enabled="true"
             android:exported="true"
             android:label="@string/title_service_locatmonster" />
 
         <receiver
-            android:name=".app.LocatMonsterServiceHelper"
+            android:name=".appframework.LocatMonsterServiceHelper"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

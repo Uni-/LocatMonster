@@ -7,6 +7,7 @@ public class CharacterStatus {
     public String Alias;
     public int Level;
     public int HP, MP, SP;
+    public SkillClass[] Skills;
     public static CharacterStatus fromClass(CharacterClass characterClass) {
         CharacterStatus characterStatus = new CharacterStatus();
         characterStatus.Name = characterClass.getName();
@@ -14,6 +15,7 @@ public class CharacterStatus {
         characterStatus.HP = characterClass.getBaseMaxHP() * characterStatus.Level;
         characterStatus.MP = characterClass.getBaseMaxMP() * characterStatus.Level;
         characterStatus.SP = characterClass.getBaseMaxSP() * characterStatus.Level;
+        characterStatus.Skills = characterClass.getSkills();
         return characterStatus;
     }
 

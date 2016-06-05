@@ -1,4 +1,4 @@
-package net.aurynj.rne.locatmonster.app;
+package net.aurynj.rne.locatmonster.appframework;
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
@@ -12,7 +12,10 @@ public class LocatMonsterServiceHelper extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
         if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
-            startLocatMonsterService(context);
+            PreferencesManager preferencesManager = new PreferencesManager(context);
+            if (preferencesManager.getServiceAutoOn()) {
+                startLocatMonsterService(context);
+            }
         } else if (action.equals(Intent.ACTION_SHUTDOWN)) {
             stopLocatMonsterService(context);
         }

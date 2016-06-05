@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import net.aurynj.rne.locatmonster.*;
+import net.aurynj.rne.locatmonster.appframework.*;
 import net.aurynj.rne.locatmonster.model.*;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {

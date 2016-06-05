@@ -1,8 +1,6 @@
 package net.aurynj.rne.locatmonster.data;
 
-import net.aurynj.rne.locatmonster.model.CharacterClass;
-import net.aurynj.rne.locatmonster.model.LatLngImpl;
-import net.aurynj.rne.locatmonster.model.RegionClass;
+import net.aurynj.rne.locatmonster.model.*;
 
 public class Region_ID_4 extends RegionClass {
     private static final double rect_lat_lower, rect_lat_upper, rect_lng_lower, rect_lng_upper;
@@ -10,8 +8,8 @@ public class Region_ID_4 extends RegionClass {
     static {
         rect_lat_lower = 37.584;
         rect_lat_upper = 37.586;
-        rect_lng_lower = 127.024;
-        rect_lng_upper = 127.026;
+        rect_lng_lower = 127.026;
+        rect_lng_upper = 127.028;
     }
 
     @Override

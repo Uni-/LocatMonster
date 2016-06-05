@@ -1,20 +1,23 @@
 package net.aurynj.rne.locatmonster.app;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import net.aurynj.rne.locatmonster.*;
-import net.aurynj.rne.locatmonster.widget.CharacterBriefStatusView;
+import net.aurynj.rne.locatmonster.appframework.*;
+import net.aurynj.rne.locatmonster.widget.*;
 
-public class BattleControlActivity extends AppCompatActivity {
+import java.util.Currency;
+import java.util.List;
+
+public class BattleControlActivity extends BaseActivity {
 
     CharacterBriefStatusView mFarView, mNearView;
     Button mStartArenaButton;
     TextView mArenaLogTextView;
-    Arena mArena;
+    Arena mCurrentArena;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +30,32 @@ public class BattleControlActivity extends AppCompatActivity {
         mStartArenaButton = (Button) findViewById(R.id.activity_battle_control_start_arena);
         mArenaLogTextView = (TextView) findViewById(R.id.activity_battle_control_arena_log);
 
-        mArena = new Arena();
-        mArenaLogTextView.setText("New Arena Generated.\n" + mArena.printStatus());
-
+        mStartArenaButton.setEnabled(false);
         mStartArenaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mArena.proceed();
+                final List<String> battleLog = mCurrentArena.proceed();
+                String logStr = new String();
+                for (String battleLogItem: battleLog) {
+                    logStr += battleLogItem + "\n";
+                }
+                mArenaLogTextView.setText(mArenaLogTextView.getText() + "\n" + logStr);
             }
         });
+    }
+
+    @Override
+    protected void onBindService() {
+        super.onBindService();
+        if (mCurrentArena == null) {
+            mCurrentArena = getLocatMonsterService().getCurrentArena();
+
+            if (mCurrentArena != null) {
+                mStartArenaButton.setEnabled(true);
+                mArenaLogTextView.setText("New Arena Generated.\n" + mCurrentArena.printStatus());
+            } else {
+                mArenaLogTextView.setText("No Arena Now.");
+            }
+        }
     }
 }

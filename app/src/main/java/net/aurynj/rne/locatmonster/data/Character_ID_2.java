@@ -1,7 +1,6 @@
 package net.aurynj.rne.locatmonster.data;
 
-import net.aurynj.rne.locatmonster.model.CharacterClass;
-import net.aurynj.rne.locatmonster.model.SkillClass;
+import net.aurynj.rne.locatmonster.model.*;
 
 public class Character_ID_2 extends CharacterClass {
 

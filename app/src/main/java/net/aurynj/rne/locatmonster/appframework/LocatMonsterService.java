@@ -1,4 +1,4 @@
-package net.aurynj.rne.locatmonster.app;
+package net.aurynj.rne.locatmonster.appframework;
 
 import android.Manifest;
 import android.app.Notification;
@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Binder;
@@ -17,11 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.WindowManager.LayoutParams;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -33,32 +30,40 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import net.aurynj.rne.locatmonster.*;
+import net.aurynj.rne.locatmonster.model.RegionClass;
 
 public class LocatMonsterService extends Service
         implements OnLocationRefreshedListener {
-    private long mTimeMilisServiceStarted;
+    private static final int SECOND_BY_MILIS = 1000;
     private final Binder mBinder = new LocalBinder();
-    private final LocationRefreshTask mLocationRefreshTask = new LocationRefreshTask();
+    private final Timer mTimer = new Timer();
+    private final TimerTask mTimerTask = new LocationCheckTask();
+
+    private boolean mTimerTaskScheduled = false;
+    private long mTimeMilisServiceStarted;
+    private List<BaseActivity> mLivingActivityList = new ArrayList<>();
 
     GoogleApiManager mGoogleApiManager;
     LocationContainer mLocationContainer;
     LocatMonsterNotificationHelper mNotificationHelper;
 
-    public AppCompatActivity mLivingActivity;
-
-    Arena mUserPrefs = new Arena();
+    Arena mCurrentArena;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (mTimeMilisServiceStarted == 0) {
             mTimeMilisServiceStarted = System.currentTimeMillis();
         }
-        Toast.makeText(LocatMonsterService.this, "LocatMonster Service Started", Toast.LENGTH_SHORT).show();
+        Log.v("LocatMonsterService", "Service started with command");
 
         if (mGoogleApiManager == null) {
             mGoogleApiManager = new GoogleApiManager(LocatMonsterService.this.getApplicationContext());
@@ -68,21 +73,18 @@ public class LocatMonsterService extends Service
             mLocationContainer = new LocationContainer(LocatMonsterService.this, mGoogleApiManager);
         }
         mLocationContainer.connect();
+        mLocationContainer.attachOnLocationRefreshedListener(this);
 
         if (mNotificationHelper == null) {
             mNotificationHelper = new LocatMonsterNotificationHelper(LocatMonsterService.this);
         }
 
-        Bundle bundle;
-        if (intent != null && (bundle = intent.getExtras()) != null) {
-            Log.v("LocatMonsterService", "Bundle found!");
-            if (bundle.getString("Tag", "").equals("NotificationClicked")) {
-                mNotificationHelper.hide();
-            }
-        } else {
-            mNotificationHelper.show();
+        if (mTimerTaskScheduled == false) {
+            mTimer.schedule(mTimerTask, 5 * SECOND_BY_MILIS, 60 * SECOND_BY_MILIS);
+            mTimerTaskScheduled = true;
         }
 
+        /*
         AlertDialog.Builder builder = new
                 AlertDialog.Builder(this, android.support.v7.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
                 .setTitle("Hi")
@@ -90,6 +92,7 @@ public class LocatMonsterService extends Service
         AlertDialog dialog = builder.create();
         dialog.getWindow().setType(LayoutParams.TYPE_SYSTEM_ALERT);
         dialog.show();
+        */
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -101,19 +104,44 @@ public class LocatMonsterService extends Service
 
     @Override
     public void onDestroy() {
+        Log.v("LocatMonsterService", "Service destroyed");
+
         mTimeMilisServiceStarted = 0;
         mLocationContainer.disconnect();
         mNotificationHelper.hide();
-        Toast.makeText(LocatMonsterService.this, "LocatMonster Service Destroyed", Toast.LENGTH_SHORT).show();
+        if (mTimerTaskScheduled) {
+            mTimer.cancel();
+            mTimerTaskScheduled = false;
+        }
+
         super.onDestroy();
     }
 
     @Override
     public void onLocationRefreshed(@Nullable Location location) {
+        for (BaseActivity activity: mLivingActivityList) {
+            activity.onLocationRefreshed();
+        }
+    }
+
+    protected void addLivingActivity(BaseActivity livingActivity) {
+        mLivingActivityList.add(livingActivity);
+    }
+
+    protected void removeLivingActivity(BaseActivity divingActivity) {
+        mLivingActivityList.remove(divingActivity);
+    }
+
+    protected BaseActivity lastLivingActivity() {
+        return mLivingActivityList.size() > 0 ? mLivingActivityList.get(mLivingActivityList.size() - 1) : null;
     }
 
     public Location getLastLocation() {
         return mLocationContainer.mLastLocation;
+    }
+
+    public Arena getCurrentArena() {
+        return mCurrentArena;
     }
 
     protected class LocalBinder extends Binder {
@@ -122,10 +150,14 @@ public class LocatMonsterService extends Service
         }
     }
 
-    protected class LocationRefreshTask extends TimerTask {
+    protected class LocationCheckTask extends TimerTask {
         @Override
         public void run() {
+            RegionHelper regionHelper = new RegionHelper();
             Location location = LocatMonsterService.this.getLastLocation();
+            RegionClass region = regionHelper.findRegion(new LatLng(location.getLatitude(), location.getLongitude()));
+            // TODO generate monster
+            mCurrentArena = new Arena();
         }
     }
 
@@ -139,21 +171,20 @@ public class LocatMonsterService extends Service
             mNotificationManager = (NotificationManager) mService.getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
-        public void build() {
-        }
-
-        public void show() {
+        public void show() throws Exception {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(mService.getApplicationContext());
             builder.setSmallIcon(android.R.drawable.ic_media_play);
             builder.setContentTitle("LocatMonster");
-            builder.setContentText("Test");
-            Intent intent_ = new Intent(mService.getApplicationContext(), LocatMonsterService.class);
-            intent_.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent_.putExtra("Tag", "NotificationClicked");
+            builder.setContentText("자동 전투 중입니다. 수동 전투에 진입하려면 터치하세요!");
+
+            Intent intent = new Intent(mService.getApplicationContext(), LocatMonsterService.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("Tag", "NotificationClicked");
             TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(mService.getApplicationContext());
-            taskStackBuilder.addParentStack(MainActivity.class);
-            taskStackBuilder.addNextIntent(intent_);
+            taskStackBuilder.addParentStack(BaseActivity.class); // TODO fix this erroneous line before use
+            taskStackBuilder.addNextIntent(intent);
             PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
             builder.setContentIntent(pendingIntent);
 
             Notification notification = builder.build();
@@ -166,18 +197,14 @@ public class LocatMonsterService extends Service
         }
     }
 
-    public class LocationContainer
-            implements GoogleApiManager.DelegatedOnConnectedListener {
-        @NonNull
-        final Context mContext;
-        @NonNull
-        final GoogleApiManager mGoogleApiManager;
-        @NonNull
-        final GmsLocationHandler mGmsLocationHandler;
-        @NonNull
-        LocationRequest mLocationRequest;
-        @NonNull
-        HashSet<OnLocationRefreshedListener> mOnLocationRefreshedListenerSet;
+    public class LocationContainer implements GoogleApiManager.DelegatedOnConnectedListener {
+        protected static final int REQUEST_CHECK_LOCATION_SETTINGS = 0x1FCC;
+        protected static final int REQUEST_PERMISSION_LOCATION_ACCESS = 0x34FB;
+        @NonNull final Context mContext;
+        @NonNull final GoogleApiManager mGoogleApiManager;
+        @NonNull final GmsLocationHandler mGmsLocationHandler;
+        @NonNull LocationRequest mLocationRequest;
+        @NonNull HashSet<OnLocationRefreshedListener> mOnLocationRefreshedListenerSet;
         Location mLastLocation;
 
         public LocationContainer(@NonNull Context context, @NonNull GoogleApiManager googleApiManager) {
@@ -248,16 +275,13 @@ public class LocatMonsterService extends Service
                                     PackageManager.PERMISSION_GRANTED
                     ) {
                 Log.v("LocationContainer", "Permission denied to access location");
-                //AppCompatActivity activity;
-                //activity.requestPermissions();
-
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
+                String[] permissions = {
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                };
+                if (lastLivingActivity() != null) {
+                    ActivityCompat.requestPermissions(lastLivingActivity(), permissions, REQUEST_PERMISSION_LOCATION_ACCESS);
+                }
                 return;
             }
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
@@ -300,7 +324,6 @@ public class LocatMonsterService extends Service
         }
 
         private class LocationSettingsResultCallback implements ResultCallback<LocationSettingsResult> {
-            protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
             @Override
             public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
@@ -313,19 +336,21 @@ public class LocatMonsterService extends Service
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         Log.v("LSRCallback", "Status: Resolution Required");
-//                    try {
-//                        status.startResolutionForResult(
-//                                mActivity, REQUEST_CHECK_SETTINGS
-//                        );
-//                    } catch (IntentSender.SendIntentException e) {
-//                        e.printStackTrace();
-//                    }
+                        if (lastLivingActivity() == null) {
+                            // TODO: request changing location settings
+                            LocatMonsterService.this.stopSelf();
+                        }
+                        try {
+                            status.startResolutionForResult(lastLivingActivity(), REQUEST_CHECK_LOCATION_SETTINGS);
+                        } catch (IntentSender.SendIntentException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                         Log.v("LSRCallback", "Status: Settings Change Unavailable");
                         break;
                     default:
-                        Log.v("LSRCallback", "Status: `" + LocationSettingsStatusCodes.getStatusCodeString(status.getStatusCode()));
+                        Log.v("LSRCallback", "Status: " + LocationSettingsStatusCodes.getStatusCodeString(status.getStatusCode()));
                         break;
                 }
             }
@@ -335,7 +360,7 @@ public class LocatMonsterService extends Service
         private class GmsLocationHandler implements LocationListener {
             @Override
             public void onLocationChanged(Location location) {
-                Log.v("LocationContainer", "GmsLocationHandler: Location changed");
+                Log.v("LocationContainer", "onLocationChanged");
                 mLastLocation = location;
                 LocationContainer.this.broadcastLocationRefreshed();
             }

@@ -1,4 +1,4 @@
-package net.aurynj.rne.locatmonster.app;
+package net.aurynj.rne.locatmonster.appframework;
 
 import android.location.Location;
 

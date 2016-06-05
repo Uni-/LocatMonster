@@ -1,4 +1,4 @@
-package net.aurynj.rne.locatmonster.app;
+package net.aurynj.rne.locatmonster.appframework;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class PreferencesManager {
     private static final String SHAREDPREFS_KEY = "LocatMonsterSharedPrefs";
     private static final String PREFITEM_TIMESTAMP_KEY = "Timestamp";
+    private static final String PREFITEM_SERVICEON_KEY = "ServiceAutoOn";
     private final SharedPreferences mSharedPreferences;
 
     public PreferencesManager(Context context) {
@@ -19,6 +20,16 @@ public class PreferencesManager {
             return new String[0];
         }
         return mSharedPreferences.getString(PREFITEM_TIMESTAMP_KEY, "").split(" ");
+    }
+
+    public boolean getServiceAutoOn() {
+        return mSharedPreferences.getBoolean(PREFITEM_SERVICEON_KEY, false);
+    }
+
+    public void setServiceAutoOn(boolean value) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean(PREFITEM_SERVICEON_KEY, value);
+        editor.commit();
     }
 
     public long[] getCharacterTimestamps() {

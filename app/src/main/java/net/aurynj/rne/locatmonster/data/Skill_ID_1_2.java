@@ -1,7 +1,6 @@
 package net.aurynj.rne.locatmonster.data;
 
-import net.aurynj.rne.locatmonster.model.CharacterStatus;
-import net.aurynj.rne.locatmonster.model.SkillClass;
+import net.aurynj.rne.locatmonster.model.*;
 
 public class Skill_ID_1_2 extends SkillClass {
     public Skill_ID_1_2() {

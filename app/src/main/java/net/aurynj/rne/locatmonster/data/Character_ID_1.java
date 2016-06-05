@@ -2,9 +2,6 @@ package net.aurynj.rne.locatmonster.data;
 
 import net.aurynj.rne.locatmonster.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Character_ID_1 extends CharacterClass {
 
     public Character_ID_1() {

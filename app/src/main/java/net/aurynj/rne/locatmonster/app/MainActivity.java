@@ -12,9 +12,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import net.aurynj.rne.locatmonster.*;
+import net.aurynj.rne.locatmonster.appframework.*;
 import net.aurynj.rne.locatmonster.widget.*;
 
-public class MainActivity extends LocatMonsterAppBaseActivity {
+public class MainActivity extends BaseActivity {
     TextView mHelloWorldTextView;
     Switch mServiceSwitch;
     Button mStartMapsButton;
@@ -36,14 +37,17 @@ public class MainActivity extends LocatMonsterAppBaseActivity {
         mClearLogButton = (Button) findViewById(R.id.activity_main_button_clear_log);
         mCharacterBriefStatusView = (CharacterBriefStatusView) findViewById(R.id.activity_main_view_character_brief_status);
 
+        final PreferencesManager preferencesManager = new PreferencesManager(MainActivity.this);
         mServiceSwitch.setChecked(LocatMonsterServiceHelper.isLocatMonsterServiceRunning(this));
         mServiceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    preferencesManager.setServiceAutoOn(true);
                     LocatMonsterServiceHelper.startLocatMonsterService(MainActivity.this);
                     bindLocatMonsterService();
                 } else {
+                    preferencesManager.setServiceAutoOn(false);
                     unbindLocatMonsterService();
                     LocatMonsterServiceHelper.stopLocatMonsterService(MainActivity.this);
                 }
@@ -90,6 +94,18 @@ public class MainActivity extends LocatMonsterAppBaseActivity {
                 removeUiLocation();
             }
         });
+    }
+
+    @Override
+    protected void onServiceOff() {
+        super.onServiceOff();
+        mServiceSwitch.setChecked(false);
+    }
+
+    @Override
+    protected void onLocationRefreshed() {
+        super.onLocationRefreshed();
+        updateUiLocation();
     }
 
     protected void removeUiLocation() {

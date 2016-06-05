@@ -8,8 +8,8 @@ public class Region_ID_5 extends RegionClass {
     static {
         rect_lat_lower = 37.584;
         rect_lat_upper = 37.586;
-        rect_lng_lower = 127.026;
-        rect_lng_upper = 127.028;
+        rect_lng_lower = 127.028;
+        rect_lng_upper = 127.030;
     }
 
     @Override
