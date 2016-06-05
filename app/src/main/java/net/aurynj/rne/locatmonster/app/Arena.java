@@ -16,4 +16,8 @@ public class Arena extends ArenaClass {
 
     public void proceed() {
     }
+
+    public String printStatus() {
+        return "Near: " + near.toString() + ", Far: " + far.toString();
+    }
 }

@@ -28,6 +28,7 @@ public class BattleControlActivity extends AppCompatActivity {
         mArenaLogTextView = (TextView) findViewById(R.id.activity_battle_control_arena_log);
 
         mArena = new Arena();
+        mArenaLogTextView.setText("New Arena Generated.\n" + mArena.printStatus());
 
         mStartArenaButton.setOnClickListener(new View.OnClickListener() {
             @Override
