@@ -8,4 +8,5 @@ public abstract class CharacterClass {
     public abstract int getBaseMaxMP();
     public abstract int getBaseMaxSP();
     public abstract SkillClass[] getSkills();
+    public abstract int drawableRes();
 }

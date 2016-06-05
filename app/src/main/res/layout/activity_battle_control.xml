@@ -1,65 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".app.BattleControlActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/activity_battle_control_layout_far"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
-        <net.aurynj.rne.locatmonster.widget.CharacterBriefStatusView
-            android:id="@+id/activity_battle_control_brief_status_far"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_centerVertical="true">
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@android:drawable/ic_media_rew" />
+            <net.aurynj.rne.locatmonster.widget.CharacterBriefStatusView
+                android:id="@+id/activity_battle_control_brief_status_far"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/activity_battle_control_image_far"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@android:drawable/ic_media_rew" />
 
-    <LinearLayout
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/activity_battle_control_layout_near"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/activity_battle_control_layout_far"
+        android:layout_height="120dp"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@android:drawable/ic_media_ff" />
-
-        <net.aurynj.rne.locatmonster.widget.CharacterBriefStatusView
-            android:id="@+id/activity_battle_control_brief_status_near"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
+            android:layout_centerVertical="true">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start arena"
-        android:id="@+id/activity_battle_control_start_arena"
-        android:layout_below="@+id/activity_battle_control_layout_near"
-        android:layout_centerHorizontal="true" />
+            <ImageView
+                android:id="@+id/activity_battle_control_image_near"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@android:drawable/ic_media_ff" />
 
-    <TextView
+            <net.aurynj.rne.locatmonster.widget.CharacterBriefStatusView
+                android:id="@+id/activity_battle_control_brief_status_near"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Arena Generated."
-        android:id="@+id/activity_battle_control_arena_log"
-        android:layout_below="@+id/activity_battle_control_start_arena" />
-</RelativeLayout>
+        android:layout_height="120dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/activity_battle_control_start_arena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Start arena" />
+
+        <TextView
+            android:id="@+id/activity_battle_control_arena_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_battle_control_start_arena"
+            android:text="New Arena Generated." />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/activity_battle_control_arena_log"
+            android:columnCount="2"
+            android:useDefaultMargins="false"
+            android:rowCount="2">
+
+            <Button android:text="1" />
+            <Button android:text="2" />
+            <Button android:text="3" />
+            <Button android:text="4" />
+            <Button android:text="5" />
+            <Button android:text="6" />
+            <Button android:text="7" />
+            <Button android:text="8" />
+        </GridLayout>
+    </RelativeLayout>
+</LinearLayout>

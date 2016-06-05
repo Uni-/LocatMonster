@@ -1,5 +1,6 @@
 package net.aurynj.rne.locatmonster.data;
 
+import net.aurynj.rne.locatmonster.R;
 import net.aurynj.rne.locatmonster.model.*;
 
 public class Character_ID_2 extends CharacterClass {
@@ -37,5 +38,10 @@ public class Character_ID_2 extends CharacterClass {
     public SkillClass[] getSkills() {
         final SkillClass skills[] = { new Skill_ID_2_1(), new Skill_ID_2_2() };
         return skills;
+    }
+
+    @Override
+    public int drawableRes() {
+        return R.drawable.cat;
     }
 }

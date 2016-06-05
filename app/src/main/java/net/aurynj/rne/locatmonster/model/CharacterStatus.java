@@ -8,6 +8,8 @@ public class CharacterStatus {
     public int Level;
     public int HP, MP, SP;
     public SkillClass[] Skills;
+    public int DrawableRes;
+    public Class<? extends CharacterClass> Class;
     public static CharacterStatus fromClass(CharacterClass characterClass) {
         CharacterStatus characterStatus = new CharacterStatus();
         characterStatus.Name = characterClass.getName();
@@ -16,6 +18,8 @@ public class CharacterStatus {
         characterStatus.MP = characterClass.getBaseMaxMP() * characterStatus.Level;
         characterStatus.SP = characterClass.getBaseMaxSP() * characterStatus.Level;
         characterStatus.Skills = characterClass.getSkills();
+        characterStatus.DrawableRes = characterClass.drawableRes();
+        characterStatus.Class = characterClass.getClass();
         return characterStatus;
     }
 

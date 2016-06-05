@@ -15,24 +15,26 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/view_character_brief_status_text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="새끼 호랑이"
+                android:text="Name"
                 android:textAlignment="textStart" />
 
             <TextView
+                android:id="@+id/view_character_brief_status_text_alias"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:text="울트라캡숑"
                 android:textAlignment="textStart"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/view_character_brief_status_text_level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lv. 1"
+            android:text="Level"
             android:textAlignment="textEnd" />
     </RelativeLayout>
 

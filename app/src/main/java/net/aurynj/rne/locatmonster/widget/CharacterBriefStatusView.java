@@ -23,6 +23,7 @@ public class CharacterBriefStatusView extends LinearLayout implements View.OnCli
 
     private static final int SUBSTEPS_MULTIPLIER = 100;
 
+    private TextView mTextViewName, mTextViewAlias, mTextViewLevel;
     private ProgressBar mProgressBarHP, mProgressBarMP, mProgressBarSP;
     private TextView mTextViewHP, mTextViewMP, mTextViewSP;
     private int mMaxHP, mMaxMP, mMaxSP;
@@ -53,6 +54,10 @@ public class CharacterBriefStatusView extends LinearLayout implements View.OnCli
 
         this.setOnClickListener(this);
 
+        mTextViewName = (TextView) findViewById(R.id.view_character_brief_status_text_name);
+        mTextViewAlias = (TextView) findViewById(R.id.view_character_brief_status_text_alias);
+        mTextViewLevel = (TextView) findViewById(R.id.view_character_brief_status_text_level);
+
         mProgressBarHP = (ProgressBar) findViewById(R.id.view_character_brief_status_progress_hp);
         mProgressBarMP = (ProgressBar) findViewById(R.id.view_character_brief_status_progress_mp);
         mProgressBarSP = (ProgressBar) findViewById(R.id.view_character_brief_status_progress_sp);
@@ -64,6 +69,18 @@ public class CharacterBriefStatusView extends LinearLayout implements View.OnCli
         refreshHPValues();
         refreshMPValues();
         refreshSPValues();
+    }
+
+    public void setName(String name) {
+        mTextViewName.setText(name);
+    }
+
+    public void setAlias(String alias) {
+        mTextViewAlias.setText(alias);
+    }
+
+    public void setLevel(int level) {
+        mTextViewLevel.setText("Lv. " + String.valueOf(level));
     }
 
     public int getMaxHP() {
