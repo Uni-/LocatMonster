@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.aurynj.rne.locatmonster.R;
+import net.aurynj.rne.locatmonster.model.PointClass;
 
 /**
  * CharacterBriefStatusView
@@ -280,12 +281,6 @@ public class CharacterBriefStatusView extends LinearLayout implements View.OnCli
 
     public void setValueChangeListener(ValueChangeListener valueChangeListener) {
         mValueChangeListener = valueChangeListener;
-    }
-
-    public enum PointClass {
-        HP,
-        MP,
-        SP,
     }
 
     private class UiValueChangeManager implements Animator.AnimatorListener, ValueAnimator.AnimatorUpdateListener {

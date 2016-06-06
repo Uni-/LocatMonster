@@ -76,29 +76,47 @@
             android:layout_centerHorizontal="true"
             android:text="Start arena" />
 
+        <GridLayout
+            android:id="@+id/activity_battle_control_layout_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/activity_battle_control_start_arena"
+            android:background="@android:color/darker_gray"
+            android:columnCount="2"
+            android:rowCount="4"
+            android:useDefaultMargins="false">
+
+            <Button android:text="1"
+                android:layout_gravity="center" />
+
+            <Button android:text="2"
+                android:layout_gravity="center" />
+
+            <Button android:text="3"
+                android:layout_gravity="center" />
+
+            <Button android:text="4"
+                android:layout_gravity="center" />
+
+            <Button android:text="5"
+                android:layout_gravity="center" />
+
+            <Button android:text="6"
+                android:layout_gravity="center" />
+
+            <Button android:text="7"
+                android:layout_gravity="center" />
+
+            <Button android:text="8"
+                android:layout_gravity="center" />
+        </GridLayout>
+
         <TextView
             android:id="@+id/activity_battle_control_arena_log"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_battle_control_start_arena"
-            android:text="New Arena Generated." />
-
-        <GridLayout
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/activity_battle_control_arena_log"
-            android:columnCount="2"
-            android:useDefaultMargins="false"
-            android:rowCount="2">
-
-            <Button android:text="1" />
-            <Button android:text="2" />
-            <Button android:text="3" />
-            <Button android:text="4" />
-            <Button android:text="5" />
-            <Button android:text="6" />
-            <Button android:text="7" />
-            <Button android:text="8" />
-        </GridLayout>
+            android:layout_alignParentTop="true"
+            android:text="New Arena Generated." />
     </RelativeLayout>
+
 </LinearLayout>

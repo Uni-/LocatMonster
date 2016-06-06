@@ -79,11 +79,6 @@ public class LocatMonsterService extends Service
             mNotificationHelper = new LocatMonsterNotificationHelper(LocatMonsterService.this);
         }
 
-        if (mTimerTaskScheduled == false) {
-            mTimer.schedule(mTimerTask, 5 * SECOND_BY_MILIS, 60 * SECOND_BY_MILIS);
-            mTimerTaskScheduled = true;
-        }
-
         /*
         AlertDialog.Builder builder = new
                 AlertDialog.Builder(this, android.support.v7.appcompat.R.style.Theme_AppCompat_Dialog_Alert)
@@ -100,6 +95,13 @@ public class LocatMonsterService extends Service
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
+    }
+
+    public void onLocationAvailable() {
+        if (mTimerTaskScheduled == false) {
+            mTimer.schedule(mTimerTask, 5 * SECOND_BY_MILIS, 60 * SECOND_BY_MILIS);
+            mTimerTaskScheduled = true;
+        }
     }
 
     @Override
@@ -309,6 +311,7 @@ public class LocatMonsterService extends Service
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiManager.getGoogleApiClient(), mLocationRequest, mGmsLocationHandler
             );
+            LocatMonsterService.this.onLocationAvailable();
         }
 
         protected void stopLocationUpdates() {

@@ -29,21 +29,61 @@ public class Arena extends ArenaClass {
         while (true) {
             int farSkillIdx = (int) (Math.random() * farSkills.length);
             SkillClass farSkill = farSkills[farSkillIdx];
-            farSkill.perform(farAtFront, nearAtFront);
-            result.add("Far side used skill: " + farSkill.getName());
+            if (Math.random() < farSkill.getSuccessProbability(farAtFront, nearAtFront)) {
+                result.add("Far side " + farAtFront.Name + " used skill: " + farSkill.getName() + ", delay " + farSkill.getDelay());
+                SkillEffectClass[] farSkillEffects = farSkill.getEffects();
+                for (SkillEffectClass farSkillEffect : farSkillEffects) {
+                    if (Math.random() <= farSkillEffect.getSuccessProbability(farAtFront, nearAtFront)) {
+                        PointClass targetPoint = farSkillEffect.getTargetPoint(farAtFront, nearAtFront);
+                        int pointIncrement = farSkillEffect.getPointIncrement(farAtFront, nearAtFront);
+                        if (farSkillEffect.getTargetSide(farAtFront, nearAtFront) == BattleSide.NEAR) {
+                            farAtFront.apply(targetPoint, pointIncrement);
+                        } else { // BattleSide.FAR
+                            nearAtFront.apply(targetPoint, pointIncrement);
+                        }
+                    }
+                }
+            } else {
+                result.add("Far side " + farAtFront.Name + " tried to use skill but failed: " + farSkill.getName());
+            }
             result.add(printStatus());
-            if (farAtFront.HP < 0) {
+
+            if (nearAtFront.HP <= 0) {
                 result.add(messageFarWins);
+                break;
+            }
+            if (farAtFront.HP <= 0) { // TODO data-unreachable but may change; more consistent check
+                result.add(messageNearWins);
                 break;
             }
 
             int nearSkillIdx = (int) (Math.random() * nearSkills.length);
             SkillClass nearSkill = nearSkills[nearSkillIdx];
-            nearSkill.perform(nearAtFront, farAtFront);
-            result.add("Near side used skill: " + nearSkill.getName());
+            if (Math.random() < nearSkill.getSuccessProbability(nearAtFront, farAtFront)) {
+                result.add("Near side " + nearAtFront.Name + " used skill: " + nearSkill.getName() + ", delay " + nearSkill.getDelay());
+                SkillEffectClass[] nearSkillEffects = nearSkill.getEffects();
+                for (SkillEffectClass nearSkillEffect: nearSkillEffects) {
+                    if (Math.random() <= nearSkillEffect.getSuccessProbability(nearAtFront, farAtFront)) {
+                        PointClass targetPoint = nearSkillEffect.getTargetPoint(nearAtFront, farAtFront);
+                        int pointIncrement = nearSkillEffect.getPointIncrement(nearAtFront, farAtFront);
+                        if (nearSkillEffect.getTargetSide(nearAtFront, farAtFront) == BattleSide.NEAR) {
+                            nearAtFront.apply(targetPoint, pointIncrement);
+                        } else { // BattleSide.FAR
+                            farAtFront.apply(targetPoint, pointIncrement);
+                        }
+                    }
+                }
+            } else {
+                result.add("Near side " + nearAtFront.Name + " tried to use skill but failed: " + nearSkill.getName());
+            }
             result.add(printStatus());
-            if (nearAtFront.HP < 0) {
+
+            if (farAtFront.HP <= 0) {
                 result.add(messageNearWins);
+                break;
+            }
+            if (nearAtFront.HP <= 0) { // TODO data-unreachable but may change; more consistent check
+                result.add(messageFarWins);
                 break;
             }
         }
