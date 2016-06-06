@@ -283,6 +283,8 @@ public class LocatMonsterService extends Service
                 };
                 if (lastLivingActivity() != null) {
                     ActivityCompat.requestPermissions(lastLivingActivity(), permissions, REQUEST_PERMISSION_LOCATION_ACCESS);
+                } else {
+                    LocatMonsterService.this.stopSelf(); // TODO safe stop
                 }
                 return;
             }
@@ -299,13 +301,15 @@ public class LocatMonsterService extends Service
                                     PackageManager.PERMISSION_GRANTED
                     ) {
                 Log.v("LocationContainer", "Permission denied to access location");
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
+                String[] permissions = {
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                };
+                if (lastLivingActivity() != null) {
+                    ActivityCompat.requestPermissions(lastLivingActivity(), permissions, REQUEST_PERMISSION_LOCATION_ACCESS);
+                } else {
+                    LocatMonsterService.this.stopSelf(); // TODO safe stop
+                }
                 return;
             }
             LocationServices.FusedLocationApi.requestLocationUpdates(
@@ -341,7 +345,7 @@ public class LocatMonsterService extends Service
                         Log.v("LSRCallback", "Status: Resolution Required");
                         if (lastLivingActivity() == null) {
                             // TODO: request changing location settings
-                            LocatMonsterService.this.stopSelf();
+                            LocatMonsterService.this.stopSelf(); // TODO safe stop
                         }
                         try {
                             status.startResolutionForResult(lastLivingActivity(), REQUEST_CHECK_LOCATION_SETTINGS);

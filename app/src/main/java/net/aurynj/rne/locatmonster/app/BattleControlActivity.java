@@ -35,6 +35,8 @@ public class BattleControlActivity extends BaseActivity {
         mStartArenaButton = (Button) findViewById(R.id.activity_battle_control_start_arena);
         mArenaLogTextView = (TextView) findViewById(R.id.activity_battle_control_arena_log);
 
+        mArenaLogTextView.setText("No Arena Now.");
+
         mStartArenaButton.setEnabled(false);
         mStartArenaButton.setOnClickListener(new View.OnClickListener() {
             @Override

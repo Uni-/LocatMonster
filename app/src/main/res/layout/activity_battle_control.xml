@@ -76,40 +76,116 @@
             android:layout_centerHorizontal="true"
             android:text="Start arena" />
 
-        <GridLayout
-            android:id="@+id/activity_battle_control_layout_grid"
+        <!--
+        - tried to use GridLayout, but the excess space distribution is supported API 21+ -
+        - and v7 support GridLayout is too buggy -
+        <android.support.v7.widget.GridLayout
+            style="@style/SimpleBox"
+            app:alignmentMode="alignBounds"
+            app:columnCount="2"
+            app:rowCount="4"
+            app:rowOrderPreserved="true"
+            app:useDefaultMargins="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                style="@style/SimpleButton"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill"
+                app:layout_rowWeight="1"
+                android:text="1" />
+
+            ...
+        -->
+
+        <LinearLayout
+            style="@style/SimpleBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/activity_battle_control_start_arena"
-            android:background="@android:color/darker_gray"
-            android:columnCount="2"
-            android:rowCount="4"
-            android:useDefaultMargins="false">
+            android:orientation="vertical">
 
-            <Button android:text="1"
-                android:layout_gravity="center" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-            <Button android:text="2"
-                android:layout_gravity="center" />
+                <Button
+                    style="@style/SimpleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="1" />
 
-            <Button android:text="3"
-                android:layout_gravity="center" />
+                <Button
+                    style="@style/SimpleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="2" />
+            </LinearLayout>
 
-            <Button android:text="4"
-                android:layout_gravity="center" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-            <Button android:text="5"
-                android:layout_gravity="center" />
+                <Button
+                    style="@style/SimpleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="3" />
 
-            <Button android:text="6"
-                android:layout_gravity="center" />
+                <Button
+                    style="@style/SimpleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="4" />
+            </LinearLayout>
 
-            <Button android:text="7"
-                android:layout_gravity="center" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-            <Button android:text="8"
-                android:layout_gravity="center" />
-        </GridLayout>
+                <Button
+                    style="@style/SimpleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="5" />
+
+                <Button
+                    style="@style/SimpleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="6" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <Button
+                    style="@style/SimpleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="7" />
+
+                <Button
+                    style="@style/SimpleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="8" />
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/activity_battle_control_arena_log"
