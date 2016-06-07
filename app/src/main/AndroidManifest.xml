@@ -60,8 +60,13 @@
 
         <activity
             android:name=".app.BattleControlActivity"
-            android:label="@string/title_activity_battlecontrol" />
-
+            android:label="@string/title_activity_battle_control" />
+        <activity
+            android:name=".app.CharacterGalleryActivity"
+            android:label="@string/title_activity_character_gallery" />
+        <activity
+            android:name=".app.CharacterStatusActivity"
+            android:label="@string/title_activity_character_status" />
     </application>
 
 </manifest>

@@ -2,5 +2,7 @@
     <string name="app_name">LocatMonster</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_service_locatmonster">LocatMonster Service</string>
-    <string name="title_activity_battlecontrol">Battle</string>
+    <string name="title_activity_battle_control">Battle</string>
+    <string name="title_activity_character_gallery">Character Gallery</string>
+    <string name="title_activity_character_status">Character Status</string>
 </resources>

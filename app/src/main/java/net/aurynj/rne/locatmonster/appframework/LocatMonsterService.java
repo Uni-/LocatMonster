@@ -72,8 +72,8 @@ public class LocatMonsterService extends Service
         if (mLocationContainer == null) {
             mLocationContainer = new LocationContainer(LocatMonsterService.this, mGoogleApiManager);
         }
-        mLocationContainer.connect();
         mLocationContainer.attachOnLocationRefreshedListener(this);
+        mLocationContainer.connect();
 
         if (mNotificationHelper == null) {
             mNotificationHelper = new LocatMonsterNotificationHelper(LocatMonsterService.this);

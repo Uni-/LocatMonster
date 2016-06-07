@@ -1,4 +1,5 @@
 package net.aurynj.rne.locatmonster.model;
 
-public class ArenaClass {
+public abstract class ArenaClass {
+    protected ArenaClass() {}
 }

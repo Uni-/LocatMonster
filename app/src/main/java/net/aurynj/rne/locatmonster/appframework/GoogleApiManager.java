@@ -41,7 +41,7 @@ public class GoogleApiManager
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.v("GoogleApiManager", "Connection Failed");
+        Log.v("GoogleApiManager", "Connection Failed: " + connectionResult.getErrorCode());
     }
 
     @Override
