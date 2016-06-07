@@ -1,6 +1,7 @@
 package net.aurynj.rne.locatmonster.app;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ public class BattleControlActivity extends BaseActivity {
 
         mStartArenaButton = (Button) findViewById(R.id.activity_battle_control_start_arena);
         mArenaLogTextView = (TextView) findViewById(R.id.activity_battle_control_arena_log);
+        mArenaLogTextView.setMovementMethod(new ScrollingMovementMethod());
 
         mArenaLogTextView.setText("No Arena Now.");
 

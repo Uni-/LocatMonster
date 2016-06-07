@@ -186,13 +186,14 @@
                     android:text="8" />
             </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/activity_battle_control_arena_log"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:text="New Arena Generated." />
     </RelativeLayout>
+    <TextView
+        android:id="@+id/activity_battle_control_arena_log"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:text="New Arena Generated."
+        android:scrollbars="vertical"
+        android:layout_weight="1"/>
 
 </LinearLayout>
