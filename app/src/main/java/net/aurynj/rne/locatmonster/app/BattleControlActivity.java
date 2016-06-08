@@ -51,12 +51,7 @@ public class BattleControlActivity extends BaseActivity implements Arena.OnChang
         mStartArenaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final List<String> battleLog = mCurrentArena.proceed();
-                String logStr = new String();
-                for (String battleLogItem: battleLog) {
-                    logStr += battleLogItem + "\n";
-                }
-                mArenaLogTextView.setText(mArenaLogTextView.getText() + "\n" + logStr);
+                getLocatMonsterService().startBattle();
             }
         });
     }
@@ -73,7 +68,6 @@ public class BattleControlActivity extends BaseActivity implements Arena.OnChang
                 return;
             }
 
-            mCurrentArena.setOnChangeListener(this);
             mStartArenaButton.setEnabled(true);
 
             mArenaLogTextView.setText("New Arena Generated.\n" + mCurrentArena.printStatus());
@@ -85,6 +79,9 @@ public class BattleControlActivity extends BaseActivity implements Arena.OnChang
 
             mNearImageView.setImageResource(nearAtFront.DrawableRes);
             mNearStatusView.setAllFrom(nearAtFront);
+
+            mCurrentArena.setOnChangeListener(this);
+            mStartArenaButton.setEnabled(true);
         }
     }
 

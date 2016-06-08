@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -198,6 +199,17 @@ public class CharacterBriefStatusView extends LinearLayout implements View.OnCli
         }
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        internalSetHP2();
+        internalSetMP2();
+        internalSetSP2();
+    }
+
+    private int _hp = 0, _mp = 0, _sp = 0;
+
+
     private void internalSetHP(int hp) {
         mProgressBarHP.setProgress(hp * SUBSTEPS_MULTIPLIER);
         refreshHPValues();
@@ -210,6 +222,33 @@ public class CharacterBriefStatusView extends LinearLayout implements View.OnCli
 
     private void internalSetSP(int sp) {
         mProgressBarSP.setProgress(sp * SUBSTEPS_MULTIPLIER);
+        refreshSPValues();
+    }
+    /*
+    private void internalSetHP(int hp) {
+        _hp = hp;
+    }
+
+    private void internalSetMP(int mp) {
+        _mp = mp;
+    }
+
+    private void internalSetSP(int sp) {
+        _sp = sp;
+    }
+*/
+    private void internalSetHP2() {
+        mProgressBarHP.setProgress(_hp * SUBSTEPS_MULTIPLIER);
+        refreshHPValues();
+    }
+
+    private void internalSetMP2() {
+        mProgressBarMP.setProgress(_mp * SUBSTEPS_MULTIPLIER);
+        refreshMPValues();
+    }
+
+    private void internalSetSP2() {
+        mProgressBarSP.setProgress(_sp * SUBSTEPS_MULTIPLIER);
         refreshSPValues();
     }
 

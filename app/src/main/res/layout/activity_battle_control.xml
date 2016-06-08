@@ -40,10 +40,10 @@
             android:id="@+id/activity_battle_control_image_far_effect"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:visibility="gone"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/effect_magic_flash" />
+            android:src="@drawable/effect_magic_flash"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -75,10 +75,10 @@
             android:id="@+id/activity_battle_control_image_near_effect"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:visibility="gone"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/effect_magic_flash" />
+            android:src="@drawable/effect_magic_flash"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -130,18 +130,20 @@
                 android:layout_weight="1">
 
                 <Button
+                    android:id="@+id/activity_battle_control_button_skill_1"
                     style="@style/SimpleButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="1" />
+                    android:text="" />
 
                 <Button
+                    android:id="@+id/activity_battle_control_button_skill_2"
                     style="@style/SimpleButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="2" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -150,18 +152,20 @@
                 android:layout_weight="1">
 
                 <Button
+                    android:id="@+id/activity_battle_control_button_skill_3"
                     style="@style/SimpleButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="3" />
+                    android:text="" />
 
                 <Button
+                    android:id="@+id/activity_battle_control_button_skill_4"
                     style="@style/SimpleButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="4" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -170,18 +174,20 @@
                 android:layout_weight="1">
 
                 <Button
+                    android:id="@+id/activity_battle_control_button_skill_5"
                     style="@style/SimpleButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="5" />
+                    android:text="" />
 
                 <Button
+                    android:id="@+id/activity_battle_control_button_skill_6"
                     style="@style/SimpleButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="6" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -190,18 +196,20 @@
                 android:layout_weight="1">
 
                 <Button
+                    android:id="@+id/activity_battle_control_button_skill_7"
                     style="@style/SimpleButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="7" />
+                    android:text="" />
 
                 <Button
+                    android:id="@+id/activity_battle_control_button_skill_8"
                     style="@style/SimpleButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="8" />
+                    android:text="" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

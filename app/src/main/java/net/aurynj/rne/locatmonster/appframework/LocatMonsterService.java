@@ -110,7 +110,7 @@ public class LocatMonsterService extends Service
 
     public void onLocationAvailable() {
         if (mTimerTaskScheduled == false) {
-            mTimer.schedule(mTimerTask, 5 * SECOND_BY_MILIS, 60 * SECOND_BY_MILIS);
+            mTimer.schedule(mTimerTask, 5 * SECOND_BY_MILIS, 120 * SECOND_BY_MILIS);
             mTimerTaskScheduled = true;
         }
     }
@@ -167,14 +167,70 @@ public class LocatMonsterService extends Service
         return mUserPrefs;
     }
 
+    // SECTION Battle
+
+    private BattleTask mBattleTask;
+
+    private void startBattleCountdown() {
+        Timer timer = new Timer();
+        timer.schedule(new BattleCountdownTask(), 0, 1000);
+        mCurrentArena = new Arena(mUserPrefs);
+    }
+
+    public void startBattle() {
+        Timer timer = new Timer();
+        timer.schedule(new BattleTask(), 0, 100);
+    }
+
     protected class LocationCheckTask extends TimerTask {
         @Override
         public void run() {
             RegionHelper regionHelper = new RegionHelper();
             Location location = LocatMonsterService.this.getLastLocation();
             RegionClass region = regionHelper.findRegion(new LatLng(location.getLatitude(), location.getLongitude()));
-            mNotificationHelper.show();
-            mCurrentArena = new Arena(mUserPrefs);
+            startBattleCountdown();
+        }
+    }
+
+    protected class BattleCountdownTask extends TimerTask {
+        int remainingSeconds = 60;
+        @Override
+        public void run() {
+            mNotificationHelper.show(remainingSeconds--);
+            if (remainingSeconds == 0) {
+                this.cancel();
+            }
+        }
+
+        @Override
+        public boolean cancel() {
+            mNotificationHelper.hide();
+            return super.cancel();
+        }
+    }
+
+    protected class BattleTask extends TimerTask {
+        int pastDeciseconds = 0;
+        double delaySecondsAccumulated = 0;
+        double lastDelay = 0;
+        int pastDecisecondsFromLastProceeding = 0;
+        @Override
+        public void run() {
+            if (pastDeciseconds == 0) {
+                // first run
+                mCurrentArena.addCurrentStatusToLog();
+            }
+
+            if (delaySecondsAccumulated <= pastDeciseconds * 10) {
+                double nextDelay = mCurrentArena.proceed();
+                if (nextDelay < 0) {
+                    this.cancel();
+                } else {
+                    delaySecondsAccumulated += nextDelay;
+                }
+            }
+
+            pastDeciseconds += 1;
         }
     }
 
@@ -188,11 +244,14 @@ public class LocatMonsterService extends Service
             mNotificationManager = (NotificationManager) mService.getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
-        public void show() {
+        public void show(int remainingSeconds) {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(mService.getApplicationContext());
             builder.setSmallIcon(android.R.drawable.ic_media_play);
             builder.setContentTitle("LocatMonster");
-            builder.setContentText("자동 전투 중입니다. 수동 전투에 진입하려면 터치하세요!");
+
+            String contentText = "자동 전투 중입니다. 진입하려면 터치하세요!";
+            contentText += " 남은 시간 " + String.valueOf(remainingSeconds) + " 초";
+            builder.setContentText(contentText);
 
             Intent intent = new Intent(mService.getApplicationContext(), BattleControlActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

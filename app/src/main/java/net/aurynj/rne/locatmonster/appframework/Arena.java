@@ -1,5 +1,7 @@
 package net.aurynj.rne.locatmonster.appframework;
 
+import android.util.Log;
+
 import net.aurynj.rne.locatmonster.data.*;
 import net.aurynj.rne.locatmonster.model.*;
 
@@ -10,6 +12,8 @@ public class Arena extends ArenaClass {
     public final List<CharacterStatus> near = new ArrayList<>(), far = new ArrayList<>();
     final List<String> log = new ArrayList<String>();
 
+    BattleSide currentTurnSide = BattleSide.FAR;
+
     public Arena(UserPrefs userPrefs) {
         List<CharacterStatus> characterStatusList = userPrefs.getCharacterStatusList();
         near.addAll(characterStatusList);
@@ -17,78 +21,86 @@ public class Arena extends ArenaClass {
         far.add(CharacterStatus.fromClass(new Character_ID_2()));
     }
 
-    public List<String> proceed() {
+    final String messageNearWins = "Win";
+    final String messageFarWins = "Lose";
+
+    BattleSide wonSide = null; // TODO implement undetermined. please don't do this for enum
+
+    public void addCurrentStatusToLog() {
+        addToLog(printStatus());
+    }
+
+    public double proceed() { // remaining delay, -1 means end of battle
         final CharacterStatus nearAtFront = near.get(0), farAtFront = far.get(0);
         final SkillClass[] nearSkills = nearAtFront.Skills;
         final SkillClass[] farSkills = farAtFront.Skills;
 
-        final String messageNearWins = "Win";
-        final String messageFarWins = "Lose";
+        final BattleSide turn = currentTurnSide;
+        final CharacterStatus characterInTurn = turn.select(nearAtFront, farAtFront);
+        final CharacterStatus characterOpposite = turn.select(farAtFront, nearAtFront);
 
-        log.add(printStatus());
+        final SkillClass[] skills = turn.select(nearSkills, farSkills);
+        final int skillIdx = (int) (Math.random() * skills.length);
+        final SkillClass skill = skills[skillIdx];
+        double skillDelay = skill.getDelay();
 
-        while (true) {
-            int farSkillIdx = (int) (Math.random() * farSkills.length);
-            SkillClass farSkill = farSkills[farSkillIdx];
-            if (Math.random() < farSkill.getSuccessProbability(farAtFront, nearAtFront)) {
-                log.add("Far side " + farAtFront.Name + " used skill: " + farSkill.getName() + ", delay " + farSkill.getDelay());
-                SkillEffectClass[] farSkillEffects = farSkill.getEffects();
-                for (SkillEffectClass farSkillEffect : farSkillEffects) {
-                    if (Math.random() <= farSkillEffect.getSuccessProbability(farAtFront, nearAtFront)) {
-                        PointClass targetPoint = farSkillEffect.getTargetPoint(farAtFront, nearAtFront);
-                        int pointIncrement = farSkillEffect.getPointIncrement(farAtFront, nearAtFront);
-                        if (farSkillEffect.getTargetSide(farAtFront, nearAtFront) == BattleSide.NEAR) {
-                            farAtFront.apply(targetPoint, pointIncrement);
-                        } else { // BattleSide.FAR
-                            nearAtFront.apply(targetPoint, pointIncrement);
-                        }
-                    }
+        if (Math.random() < skill.getSuccessProbability(characterInTurn, characterOpposite)) {
+
+            addToLog(turn.name() + " side " + characterInTurn + " used skill: " + skill.getName());
+
+            SkillEffectClass[] skillEffects = skill.getEffects();
+
+            for (SkillEffectClass skillEffect: skillEffects) {
+
+                if (Math.random() < skillEffect.getSuccessProbability(characterInTurn, characterOpposite)) {
+
+                    addToLog("skill effect " + skillEffect.toString() + " applied");
+
+                    final BattleSide targetSide = turn.multiply(skillEffect.getTargetSide(characterInTurn, characterOpposite));
+                    final PointClass pointClass = skillEffect.getTargetPoint(characterInTurn, characterOpposite);
+                    final int pointIncrement = skillEffect.getPointIncrement(characterInTurn, characterOpposite);
+
+                    targetSide.select(characterInTurn, characterOpposite).apply(pointClass, pointIncrement);
+                    mChangeListener.onStateChange(StateChangeEntry.create((int) skillDelay, targetSide, pointClass, pointIncrement));
+                } else {
+                    addToLog("skill effect " + skillEffect.toString() + " failed");
                 }
-            } else {
-                log.add("Far side " + farAtFront.Name + " tried to use skill but failed: " + farSkill.getName());
-            }
-            log.add(printStatus());
-
-            if (nearAtFront.HP <= 0) {
-                log.add(messageFarWins);
-                break;
-            }
-            if (farAtFront.HP <= 0) { // TODO data-unreachable but may change; more consistent check
-                log.add(messageNearWins);
-                break;
             }
 
-            int nearSkillIdx = (int) (Math.random() * nearSkills.length);
-            SkillClass nearSkill = nearSkills[nearSkillIdx];
-            if (Math.random() < nearSkill.getSuccessProbability(nearAtFront, farAtFront)) {
-                log.add("Near side " + nearAtFront.Name + " used skill: " + nearSkill.getName() + ", delay " + nearSkill.getDelay());
-                SkillEffectClass[] nearSkillEffects = nearSkill.getEffects();
-                for (SkillEffectClass nearSkillEffect: nearSkillEffects) {
-                    if (Math.random() <= nearSkillEffect.getSuccessProbability(nearAtFront, farAtFront)) {
-                        PointClass targetPoint = nearSkillEffect.getTargetPoint(nearAtFront, farAtFront);
-                        int pointIncrement = nearSkillEffect.getPointIncrement(nearAtFront, farAtFront);
-                        if (nearSkillEffect.getTargetSide(nearAtFront, farAtFront) == BattleSide.NEAR) {
-                            nearAtFront.apply(targetPoint, pointIncrement);
-                        } else { // BattleSide.FAR
-                            farAtFront.apply(targetPoint, pointIncrement);
-                        }
-                    }
-                }
-            } else {
-                log.add("Near side " + nearAtFront.Name + " tried to use skill but failed: " + nearSkill.getName());
-            }
-            log.add(printStatus());
+            VisualEffectClass[] visualEffects = skill.getVisualEffects(true);
 
-            if (farAtFront.HP <= 0) {
-                log.add(messageNearWins);
-                break;
+            for (VisualEffectClass visualEffect: visualEffects) {
+                mChangeListener.onShallowChange(ShallowChangeEntry.crate((int) skillDelay, turn, visualEffect));
+                // TODO;
+                // TODO: refactor for binding visual effects to each skill effect
+                // TODO: and run vfx only if its bound skill effect ?success
             }
-            if (nearAtFront.HP <= 0) { // TODO data-unreachable but may change; more consistent check
-                log.add(messageFarWins);
-                break;
-            }
+        } else {
+            addToLog(turn.name() + " side " + characterInTurn + " tried to use skill but failed: " + skill.getName());
         }
-        return log;
+
+        if (characterOpposite.HP <= 0) {
+            addToLog(turn.select(messageNearWins, messageFarWins));
+            wonSide = turn;
+            mChangeListener.onEnd(wonSide);
+        } else if (characterInTurn.HP <= 0) {
+            addToLog(turn.select(messageFarWins, messageNearWins));
+            wonSide = turn.next();
+            mChangeListener.onEnd(wonSide);
+        }
+
+        currentTurnSide = turn.next();
+
+        if (wonSide != null) {
+            return (double) -1;
+        } else {
+            return skillDelay;
+        }
+    }
+
+    public void addToLog(String msg) {
+        log.add(msg);
+        Log.v("Arena Log", msg);
     }
 
     public String printStatus() {
