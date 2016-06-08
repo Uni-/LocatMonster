@@ -2,7 +2,7 @@ package net.aurynj.rne.locatmonster.data;
 
 import net.aurynj.rne.locatmonster.model.*;
 
-public class Region_ID_5 extends RegionClass {
+public final class Region_ID_5 extends RegionClass {
     private static final double rect_lat_lower, rect_lat_upper, rect_lng_lower, rect_lng_upper;
 
     static {

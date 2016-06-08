@@ -5,5 +5,6 @@ public abstract class SkillClass {
     public abstract String getName();
     public abstract float getSuccessProbability(CharacterStatus near, CharacterStatus far);
     public abstract SkillEffectClass[] getEffects();
+    public abstract VisualEffectClass[] getVisualEffects(boolean success);
     public abstract double getDelay();
 }

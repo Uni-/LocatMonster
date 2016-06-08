@@ -2,7 +2,7 @@ package net.aurynj.rne.locatmonster.data;
 
 import net.aurynj.rne.locatmonster.model.*;
 
-public class Skill_ID_2_1 extends SkillClass {
+public final class Skill_ID_2_1 extends SkillClass {
     public Skill_ID_2_1() {
         super();
     }
@@ -24,11 +24,20 @@ public class Skill_ID_2_1 extends SkillClass {
     }
 
     @Override
+    public VisualEffectClass[] getVisualEffects(boolean success) {
+        final VisualEffectClass[] skillVisualEffectClassesOnSuccess = { new Skill_ID_2_1_Visual_1() };
+        if (success)
+            return skillVisualEffectClassesOnSuccess;
+        else
+            return new VisualEffectClass[0];
+    }
+
+    @Override
     public double getDelay() {
         return 1;
     }
 
-    private class SkillEffect_ID_2_1_1 extends SkillEffectClass {
+    private final class SkillEffect_ID_2_1_1 extends SkillEffectClass {
         @Override
         public float getSuccessProbability(CharacterStatus near, CharacterStatus far) {
             return 1;
@@ -50,7 +59,7 @@ public class Skill_ID_2_1 extends SkillClass {
         }
     }
 
-    private class SkillEffect_ID_2_1_2 extends SkillEffectClass {
+    private final class SkillEffect_ID_2_1_2 extends SkillEffectClass {
         @Override
         public float getSuccessProbability(CharacterStatus near, CharacterStatus far) {
             return 1;
@@ -69,6 +78,18 @@ public class Skill_ID_2_1 extends SkillClass {
         @Override
         public int getPointIncrement(CharacterStatus near, CharacterStatus far) {
             return -40 * near.Level;
+        }
+    }
+
+    private final class Skill_ID_2_1_Visual_1 extends VisualEffectClass {
+        @Override
+        public Type getType() {
+            return Type.CLAW;
+        }
+
+        @Override
+        public BattleSide getTargetSide() {
+            return BattleSide.FAR;
         }
     }
 }

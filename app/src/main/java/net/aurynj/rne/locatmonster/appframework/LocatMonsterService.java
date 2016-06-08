@@ -39,6 +39,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.aurynj.rne.locatmonster.*;
+import net.aurynj.rne.locatmonster.app.BattleControlActivity;
+import net.aurynj.rne.locatmonster.data.Character_ID_1;
+import net.aurynj.rne.locatmonster.model.CharacterStatus;
 import net.aurynj.rne.locatmonster.model.RegionClass;
 
 public class LocatMonsterService extends Service
@@ -57,6 +60,7 @@ public class LocatMonsterService extends Service
     LocatMonsterNotificationHelper mNotificationHelper;
 
     Arena mCurrentArena;
+    UserPrefs mUserPrefs;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -77,6 +81,13 @@ public class LocatMonsterService extends Service
 
         if (mNotificationHelper == null) {
             mNotificationHelper = new LocatMonsterNotificationHelper(LocatMonsterService.this);
+        }
+
+        if (mUserPrefs == null) {
+            mUserPrefs = new UserPrefs(LocatMonsterService.this);
+            if (mUserPrefs.getCharacterStatusList().isEmpty()) {
+                mUserPrefs.getCharacterStatusList().add(CharacterStatus.fromClass(new Character_ID_1()));
+            }
         }
 
         /*
@@ -152,14 +163,18 @@ public class LocatMonsterService extends Service
         }
     }
 
+    public UserPrefs getUserPrefs() {
+        return mUserPrefs;
+    }
+
     protected class LocationCheckTask extends TimerTask {
         @Override
         public void run() {
             RegionHelper regionHelper = new RegionHelper();
             Location location = LocatMonsterService.this.getLastLocation();
             RegionClass region = regionHelper.findRegion(new LatLng(location.getLatitude(), location.getLongitude()));
-            // TODO generate monster
-            mCurrentArena = new Arena();
+            mNotificationHelper.show();
+            mCurrentArena = new Arena(mUserPrefs);
         }
     }
 
@@ -173,17 +188,17 @@ public class LocatMonsterService extends Service
             mNotificationManager = (NotificationManager) mService.getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
-        public void show() throws Exception {
+        public void show() {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(mService.getApplicationContext());
             builder.setSmallIcon(android.R.drawable.ic_media_play);
             builder.setContentTitle("LocatMonster");
             builder.setContentText("자동 전투 중입니다. 수동 전투에 진입하려면 터치하세요!");
 
-            Intent intent = new Intent(mService.getApplicationContext(), LocatMonsterService.class);
+            Intent intent = new Intent(mService.getApplicationContext(), BattleControlActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra("Tag", "NotificationClicked");
             TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(mService.getApplicationContext());
-            taskStackBuilder.addParentStack(BaseActivity.class); // TODO fix this erroneous line before use
+            // taskStackBuilder.addParentStack(BaseActivity.class); // TODO fix this erroneous line before use
             taskStackBuilder.addNextIntent(intent);
             PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 

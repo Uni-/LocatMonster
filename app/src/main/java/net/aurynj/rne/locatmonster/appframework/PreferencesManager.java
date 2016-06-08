@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 
 import java.util.Arrays;
 
-public class PreferencesManager {
+public final class PreferencesManager {
     private static final String SHAREDPREFS_KEY = "LocatMonsterSharedPrefs";
+    private static final String PREFITEM_CHARNAME_KEY = "CharName";
+    private static final String PREFITEM_CLASSNAME_KEY = "ClassName";
     private static final String PREFITEM_TIMESTAMP_KEY = "Timestamp";
     private static final String PREFITEM_SERVICEON_KEY = "ServiceAutoOn";
     private final SharedPreferences mSharedPreferences;
@@ -16,7 +18,7 @@ public class PreferencesManager {
     }
 
     private String[] getCharacterTimestampsString() {
-        if (mSharedPreferences.contains(PREFITEM_TIMESTAMP_KEY)) {
+        if (!mSharedPreferences.contains(PREFITEM_TIMESTAMP_KEY)) {
             return new String[0];
         }
         return mSharedPreferences.getString(PREFITEM_TIMESTAMP_KEY, "").split(" ");
@@ -51,6 +53,26 @@ public class PreferencesManager {
         }
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(PREFITEM_TIMESTAMP_KEY, s);
+        editor.commit();
+    }
+
+    public String getCharacterName(long characterTimestamp) {
+        return mSharedPreferences.getString(PREFITEM_CHARNAME_KEY + String.valueOf(characterTimestamp), "");
+    }
+
+    public void setCharacterName(long characterTimestamp, String name) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(PREFITEM_CHARNAME_KEY + String.valueOf(characterTimestamp), name);
+        editor.commit();
+    }
+
+    public String getClassName(long characterTimestamp) {
+        return mSharedPreferences.getString(PREFITEM_CLASSNAME_KEY + String.valueOf(characterTimestamp), "");
+    }
+
+    public void setClassName(long characterTimestamp, String name) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(PREFITEM_CLASSNAME_KEY + String.valueOf(characterTimestamp), name);
         editor.commit();
     }
 

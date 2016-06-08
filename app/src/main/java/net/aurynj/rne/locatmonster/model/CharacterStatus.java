@@ -14,6 +14,7 @@ public class CharacterStatus {
     public static CharacterStatus fromClass(CharacterClass characterClass) {
         CharacterStatus characterStatus = new CharacterStatus();
         characterStatus.Name = characterClass.getName();
+        characterStatus.Alias = "";
         characterStatus.Level = characterClass.getDefaultLevel();
         characterStatus.MaxHP = characterClass.getBaseMaxHP() * characterStatus.Level;
         characterStatus.MaxMP = characterClass.getBaseMaxMP() * characterStatus.Level;

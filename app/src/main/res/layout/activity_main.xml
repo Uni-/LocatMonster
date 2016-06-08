@@ -33,6 +33,12 @@
             android:text="수동전투" />
 
         <Button
+            android:id="@+id/activity_main_button_start_character_gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="보유 캐릭터 목록" />
+
+        <Button
             android:id="@+id/activity_main_button_refresh_location"
             android:layout_width="wrap_content"
             android:layout_height="48dp"

@@ -3,7 +3,7 @@ package net.aurynj.rne.locatmonster.data;
 import net.aurynj.rne.locatmonster.R;
 import net.aurynj.rne.locatmonster.model.*;
 
-public class Character_ID_1001 extends CharacterClass {
+public final class Character_ID_1001 extends CharacterClass {
 
     public Character_ID_1001() {
         super();

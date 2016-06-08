@@ -20,6 +20,7 @@ public class MainActivity extends BaseActivity {
     Switch mServiceSwitch;
     Button mStartMapsButton;
     Button mStartBattleControlButton;
+    Button mStartCharacterGalleryButton;
     Button mRefreshLocationButton;
     Button mClearLogButton;
     CharacterBriefStatusView mCharacterBriefStatusView;
@@ -33,6 +34,7 @@ public class MainActivity extends BaseActivity {
         mServiceSwitch = (Switch) findViewById(R.id.activity_main_switch_service);
         mStartMapsButton = (Button) findViewById(R.id.activity_main_button_start_map);
         mStartBattleControlButton = (Button) findViewById(R.id.activity_main_button_start_battle_control);
+        mStartCharacterGalleryButton = (Button) findViewById(R.id.activity_main_button_start_character_gallery);
         mRefreshLocationButton = (Button) findViewById(R.id.activity_main_button_refresh_location);
         mClearLogButton = (Button) findViewById(R.id.activity_main_button_clear_log);
         mCharacterBriefStatusView = (CharacterBriefStatusView) findViewById(R.id.activity_main_view_character_brief_status);
@@ -80,6 +82,12 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, BattleControlActivity.class));
+            }
+        });
+        mStartCharacterGalleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CharacterGalleryActivity.class));
             }
         });
         mRefreshLocationButton.setOnClickListener(new View.OnClickListener() {

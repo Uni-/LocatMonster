@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.aurynj.rne.locatmonster.R;
-import net.aurynj.rne.locatmonster.model.PointClass;
+import net.aurynj.rne.locatmonster.model.*;
 
 /**
  * CharacterBriefStatusView
@@ -70,6 +70,27 @@ public class CharacterBriefStatusView extends LinearLayout implements View.OnCli
         refreshHPValues();
         refreshMPValues();
         refreshSPValues();
+    }
+
+    public void setAllFrom(CharacterStatus characterStatus) {
+        setName(characterStatus.Name);
+        setAlias(characterStatus.Alias);
+        setLevel(characterStatus.Level);
+        setMaxHP(characterStatus.MaxHP);
+        setMaxMP(characterStatus.MaxMP);
+        setMaxSP(characterStatus.MaxSP);
+        setHP(characterStatus.HP);
+        setMP(characterStatus.MP);
+        setSP(characterStatus.SP);
+    }
+
+    public void setAllTo(CharacterStatus characterStatus) {
+        characterStatus.MaxHP = getMaxHP();
+        characterStatus.MaxMP = getMaxMP();
+        characterStatus.MaxSP = getMaxSP();
+        characterStatus.HP = getHP();
+        characterStatus.MP = getMP();
+        characterStatus.SP = getSP();
     }
 
     public void setName(String name) {
@@ -135,7 +156,7 @@ public class CharacterBriefStatusView extends LinearLayout implements View.OnCli
         refreshSPValues();
     }
 
-    private void setPointOfClass(PointClass pointClass, int point) {
+    public void setPointOfClass(PointClass pointClass, int point) {
         switch (pointClass) {
             case HP:
                 setHP(point);
@@ -145,6 +166,20 @@ public class CharacterBriefStatusView extends LinearLayout implements View.OnCli
                 break;
             case SP:
                 setSP(point);
+                break;
+        }
+    }
+
+    public void incrementPointOfClassBy(PointClass pointClass, int diffPoint) {
+        switch (pointClass) {
+            case HP:
+                incrementHPBy(diffPoint);
+                break;
+            case MP:
+                incrementMPBy(diffPoint);
+                break;
+            case SP:
+                incrementSPBy(diffPoint);
                 break;
         }
     }

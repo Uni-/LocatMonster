@@ -35,6 +35,15 @@
                 android:src="@android:drawable/ic_media_rew" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/activity_battle_control_image_far_effect"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/effect_magic_flash" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -61,6 +70,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/activity_battle_control_image_near_effect"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:visibility="gone"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/effect_magic_flash" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -187,13 +205,14 @@
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
+
     <TextView
         android:id="@+id/activity_battle_control_arena_log"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
-        android:text="New Arena Generated."
+        android:layout_weight="1"
         android:scrollbars="vertical"
-        android:layout_weight="1"/>
+        android:text="New Arena Generated." />
 
 </LinearLayout>
